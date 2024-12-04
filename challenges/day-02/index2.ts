@@ -1,4 +1,4 @@
-import { difference, loadInput } from "../utils";
+import { loadInput } from "../utils";
 
 const input = loadInput("challenges/day-02/input");
 const reports = input
