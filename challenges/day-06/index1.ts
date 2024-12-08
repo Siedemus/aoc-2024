@@ -28,18 +28,9 @@ const getInitialPosition = (): {
 };
 
 const changeDirection = (currentDirection: Direction): Direction => {
-  if (currentDirection === "up") {
-    return "right";
-  }
-
-  if (currentDirection === "right") {
-    return "down";
-  }
-
-  if (currentDirection === "down") {
-    return "left";
-  }
-
+  if (currentDirection === "up") return "right";
+  if (currentDirection === "right") return "down";
+  if (currentDirection === "down") return "left";
   return "up";
 };
 
