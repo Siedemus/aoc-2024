@@ -5,7 +5,7 @@ const input = loadInput("challenges/day-06/input");
 type Map = ("." | "#" | "^")[][];
 type Direction = "up" | "right" | "down" | "left";
 
-const map = input
+const inputMap = input
   .trim()
   .split("\n")
   .map((row) => row.split("")) as Map;
@@ -17,7 +17,9 @@ const directions: Record<Direction, { X: number; Y: number }> = {
   left: { X: -1, Y: 0 },
 };
 
-const getInitialPosition = (): {
+const getInitialPosition = (
+  map: Map
+): {
   X: number;
   Y: number;
   direction: Direction;
@@ -34,11 +36,11 @@ const changeDirection = (currentDirection: Direction): Direction => {
   return "up";
 };
 
-const detectLoop = (tempObstacle: { X: number; Y: number }) => {
-  let { X, Y, direction } = getInitialPosition();
+const detectLoop = (map: Map, tempObstacle: { X: number; Y: number }) => {
+  let { X, Y, direction } = getInitialPosition(map);
   const visited = new Set<string>();
 
-  const tempMap = map.map(row => [...row])
+  const tempMap = map.map((row) => [...row]);
   tempMap[tempObstacle.Y][tempObstacle.X] = "#";
 
   while (true) {
@@ -73,16 +75,17 @@ const detectLoop = (tempObstacle: { X: number; Y: number }) => {
   }
 };
 
-const findValidObstaclePositions = () => {
+const findValidObstaclePositions = (map: Map) => {
   const validPositions = [];
 
   for (let Y = 0; Y < map.length; Y++) {
     for (let X = 0; X < map[Y].length; X++) {
+      const initialPosition = getInitialPosition(map);
       if (
         map[Y][X] === "." &&
-        !(X === getInitialPosition().X && Y === getInitialPosition().Y)
+        !(X === initialPosition.X && Y === initialPosition.Y)
       ) {
-        if (detectLoop({ X, Y })) {
+        if (detectLoop(map, { X, Y })) {
           validPositions.push({ X, Y });
         }
       }
@@ -91,5 +94,5 @@ const findValidObstaclePositions = () => {
   return validPositions.length;
 };
 
-const validObstacleCount = findValidObstaclePositions();
+const validObstacleCount = findValidObstaclePositions(inputMap);
 console.log(validObstacleCount);

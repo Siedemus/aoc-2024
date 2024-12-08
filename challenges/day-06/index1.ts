@@ -5,7 +5,7 @@ const input = loadInput("challenges/day-06/input");
 type Map = ("." | "#" | "^")[][];
 type Direction = "up" | "right" | "down" | "left";
 
-const map = input
+const inputMap = input
   .trim()
   .split("\n")
   .map((row) => row.split("")) as Map;
@@ -17,7 +17,9 @@ const directions: Record<Direction, { X: number; Y: number }> = {
   left: { X: -1, Y: 0 },
 };
 
-const getInitialPosition = (): {
+const getInitialPosition = (
+  map: Map
+): {
   X: number;
   Y: number;
   direction: Direction;
@@ -34,8 +36,8 @@ const changeDirection = (currentDirection: Direction): Direction => {
   return "up";
 };
 
-const simulateGuardPath = () => {
-  let { X, Y, direction } = getInitialPosition();
+const simulateGuardPath = (map: Map) => {
+  let { X, Y, direction } = getInitialPosition(map);
   const visited = new Set<string>();
   visited.add(`${X},${Y}`);
 
@@ -67,5 +69,5 @@ const simulateGuardPath = () => {
   return visited;
 };
 
-const visitedPlaces = simulateGuardPath();
+const visitedPlaces = simulateGuardPath(inputMap);
 console.log(visitedPlaces.size);
