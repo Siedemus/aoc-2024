@@ -1,3 +1,6 @@
 *.js
 node_modules
 build
+input
+input1
+input2
