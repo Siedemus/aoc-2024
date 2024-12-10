@@ -31,12 +31,12 @@ const createDiskMap = (input: string): DiskMap => {
 
 const rearrangeMemory = (diskMap: DiskMap) => {
   const fileMap = [];
-  const blockPosition = [];
+  const blockPositions = [];
   let totalCount = 0;
 
   for (const block of diskMap) {
     if (block.type === "id") {
-      blockPosition.push({
+      blockPositions.push({
         id: block.id,
         count: block.count,
         start: totalCount,
@@ -48,8 +48,8 @@ const rearrangeMemory = (diskMap: DiskMap) => {
     totalCount += block.count;
   }
 
-  for (let i = blockPosition.length - 1; i >= 0; i--) {
-    const { id, count, start } = blockPosition[i];
+  for (let i = blockPositions.length - 1; i >= 0; i--) {
+    const { id, count, start } = blockPositions[i];
 
     for (let j = 0; j < start; j++) {
       if (fileMap[j] === -1) {
@@ -65,14 +65,14 @@ const rearrangeMemory = (diskMap: DiskMap) => {
             fileMap[start + k] = -1;
           }
 
-          blockPosition[i].start = j;
+          blockPositions[i].start = j;
           break;
         }
       }
     }
   }
 
-  return fileMap;
+  return fileMap
 };
 
 const processChecksums = (fileMap: number[]) => {
@@ -94,4 +94,3 @@ const rearranged = rearrangeMemory(diskMap);
 const checksums = processChecksums(rearranged);
 
 console.log(sum(checksums));
-
