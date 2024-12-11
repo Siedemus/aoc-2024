@@ -1,4 +1,4 @@
-import { loadInput, sum } from "../utils";
+import { loadInput } from "../utils";
 
 const input = loadInput("challenges/day-10/input");
 const map = input.split(/\n/).map((row) => row.trim().split("").map(Number));
@@ -39,7 +39,9 @@ const searchTrails = (
 	}
 };
 
-const findTrailheads = (map: Map, trails: YX[][]) => {
+const findTrailheads = (map: Map) => {
+	const trails: YX[][] = [];
+
 	for (let y = 0; y < map.length; y++) {
 		for (let x = 0; x < map[y].length; x++) {
 			if (map[y][x] === 0) {
@@ -47,6 +49,8 @@ const findTrailheads = (map: Map, trails: YX[][]) => {
 			}
 		}
 	}
+
+	return trails;
 };
 
 const sortTrails = (trails: YX[][]) => {
@@ -80,8 +84,7 @@ const countPoints = (validTrails: {
 	return sum;
 };
 
-const trails: YX[][] = [];
-findTrailheads(map, trails);
+const trails = findTrailheads(map);
 const validTrails = sortTrails(trails);
 const finalSum = countPoints(validTrails);
 
